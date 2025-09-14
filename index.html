@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LKPD Interaktif: Teorema Pythagoras</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+        }
+        .step-card {
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+        .step-active {
+            border-color: #fbbf24;
+            transform: scale(1.02);
+        }
+        .step-completed {
+            border-color: #10b981;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pulse-glow {
+            animation: pulseGlow 2s infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(251, 191, 36, 0.8); }
+        }
+        .input-field {
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-yellow-300 mb-4">
+                LKPD INTERAKTIF: TEOREMA PYTHAGORAS 🚒
+            </h1>
+            <p class="text-xl text-gray-200">Lembar Kerja Peserta Didik - Misi Penyelamatan</p>
+            
+            <!-- Group Name and Student Names Input -->
+            <div class="mt-6 bg-blue-600/20 border-2 border-blue-400 rounded-lg p-6 backdrop-blur-sm">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-blue-300 mb-4">📝 Nama Kelompok</h3>
+                    <input type="text" id="group-name" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center text-lg font-bold" placeholder="Masukkan nama kelompok (contoh: Super Math, MathEdu Kelas VIII, Tim Matematika, dll.)">
+                </div>
+                <h3 class="text-xl font-bold text-blue-300 mb-4">👥 Anggota Kelompok</h3>
+                <div class="grid md:grid-cols-5 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Siswa 1:</label>
+                        <input type="text" id="student1" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Nama lengkap">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Siswa 2:</label>
+                        <input type="text" id="student2" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Nama lengkap">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Siswa 3:</label>
+                        <input type="text" id="student3" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Nama lengkap">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Siswa 4:</label>
+                        <input type="text" id="student4" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Nama lengkap">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Siswa 5:</label>
+                        <input type="text" id="student5" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Nama lengkap">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 bg-white/10 rounded-lg p-4 backdrop-blur-sm">
+                <p class="text-lg"><strong>Tujuan Pembelajaran:</strong> Siswa dapat menemukan, membuktikan dan menerapkan Teorema Pythagoras dalam menyelesaikan masalah nyata</p>
+            </div>
+        </header>
+
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium">Progress Pembelajaran</span>
+                <span class="text-sm font-medium"><span id="progress-text">0</span>/4 Langkah</span>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-3">
+                <div id="progress-bar" class="bg-gradient-to-r from-yellow-400 to-green-500 h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Step 1: Masalah -->
+        <section id="step1" class="step-card step-active bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8">
+            <div class="flex items-center mb-6">
+                <div class="bg-red-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold mr-4">1</div>
+                <h2 class="text-3xl font-bold text-red-300">SITUASI DARURAT!</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <div class="bg-red-600/20 border-2 border-red-400 rounded-lg p-6 mb-6">
+                        <h3 class="text-2xl font-bold text-red-300 mb-4">🚨 MISI PENYELAMATAN 🚨</h3>
+                        <p class="text-lg mb-4">Seorang korban terjebak di lantai 3 gedung yang terbakar! Tim pemadam kebakaran harus segera bertindak.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-white/10 rounded-lg p-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-semibold">Tinggi Lantai 3:</span>
+                                    <span class="text-2xl font-bold text-yellow-300">8 meter</span>
+                                </div>
+                            </div>
+                            <div class="bg-white/10 rounded-lg p-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-semibold">Jarak Aman Mobil:</span>
+                                    <span class="text-2xl font-bold text-blue-300">6 meter</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-600/20 border-2 border-yellow-400 rounded-lg p-4">
+                        <h4 class="font-bold text-yellow-300 mb-2">❓ PERTANYAAN UTAMA:</h4>
+                        <p class="text-lg">Berapa panjang tangga minimum yang dibutuhkan untuk mencapai korban dengan aman?</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-gray-800/50 rounded-lg p-4">
+                        <h4 class="text-xl font-bold mb-4 text-center">Ilustrasi Situasi</h4>
+                        <svg width="100%" height="300" viewBox="0 0 400 300" class="border-2 border-gray-600 rounded">
+                            <!-- Building on the right -->
+                            <rect x="320" y="80" width="60" height="170" fill="#4a5568" stroke="#e2e8f0" stroke-width="2"/>
+                            <rect x="330" y="200" width="15" height="12" fill="#fbbf24"/> <!-- Window floor 1 -->
+                            <rect x="355" y="200" width="15" height="12" fill="#fbbf24"/> <!-- Window floor 1 -->
+                            <rect x="330" y="170" width="15" height="12" fill="#fbbf24"/> <!-- Window floor 2 -->
+                            <rect x="355" y="170" width="15" height="12" fill="#fbbf24"/> <!-- Window floor 2 -->
+                            <rect x="330" y="140" width="15" height="12" fill="#ef4444"/> <!-- Window floor 3 (fire) -->
+                            <rect x="355" y="140" width="15" height="12" fill="#ef4444"/> <!-- Window floor 3 (fire) -->
+                            <rect x="330" y="110" width="15" height="12" fill="#ef4444"/> <!-- Window floor 4 (fire) -->
+                            <rect x="355" y="110" width="15" height="12" fill="#ef4444"/> <!-- Window floor 4 (fire) -->
+                            
+                            <!-- Person in window -->
+                            <text x="350" y="135" text-anchor="middle" font-size="16">🧑</text>
+                            
+                            <!-- Ground -->
+                            <line x1="0" y1="250" x2="400" y2="250" stroke="#10b981" stroke-width="4"/>
+                            
+                            <!-- Fire truck on the left -->
+                            <rect x="200" y="220" width="60" height="30" fill="#dc2626"/>
+                            <circle cx="215" r="8" cy="250" fill="#374151"/>
+                            <circle cx="245" r="8" cy="250" fill="#374151"/>
+                            <text x="230" y="240" text-anchor="middle" font-size="20">🚒</text>
+                            
+                            <!-- Measurements -->
+                            <line x1="315" y1="140" x2="315" y2="250" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text x="305" y="195" text-anchor="middle" fill="#ef4444" font-size="14" font-weight="bold">8m</text>
+                            
+                            <line x1="260" y1="255" x2="315" y2="255" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text x="287" y="275" text-anchor="middle" fill="#3b82f6" font-size="14" font-weight="bold">6m</text>
+                            
+                            <!-- Question mark for ladder -->
+                            <line x1="260" y1="250" x2="320" y2="140" stroke="#f59e0b" stroke-width="3" stroke-dasharray="10,5"/>
+                            <text x="290" y="185" text-anchor="middle" fill="#f59e0b" font-size="20" font-weight="bold">?</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <button onclick="nextStep(1)" class="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-3 rounded-lg font-bold text-lg transition-all pulse-glow">
+                    Lanjut ke Pembuktian Teorema →
+                </button>
+            </div>
+        </section>
+
+        <!-- Step 2: Pembuktian Teorema -->
+        <section id="step2" class="step-card bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8 opacity-50">
+            <div class="flex items-center mb-6">
+                <div class="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold mr-4">2</div>
+                <h2 class="text-3xl font-bold text-blue-300">PEMBUKTIAN TEOREMA PYTHAGORAS</h2>
+            </div>
+            
+            <!-- Alat dan Bahan -->
+            <div class="bg-orange-600/20 border-2 border-orange-400 rounded-lg p-6 mb-8">
+                <h3 class="text-2xl font-bold mb-4 text-orange-300">📋 Alat dan Bahan yang Dibutuhkan</h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-bold mb-3 text-yellow-300">🛠️ Alat:</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center"><span class="text-2xl mr-3">✂️</span>Gunting</li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">📏</span>Penggaris</li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">✏️</span>Pensil</li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🖍️</span>Spidol warna (3 warna berbeda)</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold mb-3 text-yellow-300">📄 Bahan:</h4>
+                        <ul class="space-y-2">
+                            <li class="flex items-center"><span class="text-2xl mr-3">📊</span>Kertas berpetak/grafik (minimal 15×15 kotak)</li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🗂️</span>Kertas karton (opsional)</li>
+                            <li class="flex items-center"><span class="text-2xl mr-3">🔗</span>Lem atau selotip</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+
+
+            <!-- Langkah Pembuktian Terpadu -->
+            <div class="space-y-8">
+                <!-- Langkah 1: Gambar Segitiga Siku-siku -->
+                <div class="bg-blue-600/20 border-2 border-blue-400 rounded-lg p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-blue-300">📐 Langkah 1: Gambar Segitiga Siku-siku</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-lg font-bold mb-3 text-yellow-300">Instruksi:</h4>
+                            <ol class="space-y-3 text-lg">
+                                <li class="flex items-start">
+                                    <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">1</span>
+                                    <span>Ambil kertas berpetak dan gambar segitiga siku-siku</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">2</span>
+                                    <span>Gambar sisi alas = <strong class="text-red-400">3 kotak</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">3</span>
+                                    <span>Gambar sisi tegak = <strong class="text-blue-400">4 kotak</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">4</span>
+                                    <span>Tarik garis pada ujung gambar sisi tegak dan ujung sisi alas sehingga membentuk segitiga siku-siku</span>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="bg-gray-800/50 rounded-lg p-4">
+                                <h5 class="text-center font-bold mb-4">Contoh Gambar Segitiga:</h5>
+                                <svg width="100%" height="350" viewBox="0 0 500 350" class="border border-gray-600 rounded">
+                                    <!-- Grid background -->
+                                    <defs>
+                                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ffffff" stroke-width="0.8"/>
+                                        </pattern>
+                                    </defs>
+                                    <rect width="100%" height="100%" fill="url(#grid)"/>
+                                    
+                                    <!-- Triangle facing left: 3-4-5 -->
+                                    <polygon points="280,280 220,280 280,200" fill="#10b981" fill-opacity="0.3" stroke="#10b981" stroke-width="4"/>
+                                    
+                                    <!-- Labels with a, b, c -->
+                                    <!-- Bottom side label (a = 3) -->
+                                    <text x="240" y="300" text-anchor="middle" fill="#ef4444" font-size="18" font-weight="bold">a = 3</text>
+                                    
+                                    <!-- Right side label (b = 4) -->
+                                    <text x="310" y="240" text-anchor="middle" fill="#3b82f6" font-size="18" font-weight="bold">b = 4</text>
+                                    
+                                    <!-- Hypotenuse label (c = 5) -->
+                                    <text x="230" y="230" text-anchor="middle" fill="#fbbf24" font-size="18" font-weight="bold">c = ?</text>
+                                    
+                                    <!-- Right angle indicator -->
+                                    <rect x="260" y="260" width="20" height="20" fill="none" stroke="#fbbf24" stroke-width="3"/>
+                                </svg>
+                                
+                                <!-- Keterangan -->
+                                <div class="mt-4 bg-white/10 rounded-lg p-4">
+                                    <h6 class="font-bold mb-3 text-yellow-300">📝 Keterangan:</h6>
+                                    <div class="space-y-2 text-sm">
+                                        <div class="flex items-center">
+                                            <span class="w-4 h-4 bg-red-500 rounded mr-3"></span>
+                                            <span><strong class="text-red-400">a</strong> = sisi alas = 3 kotak</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-4 h-4 bg-blue-500 rounded mr-3"></span>
+                                            <span><strong class="text-blue-400">b</strong> = sisi tegak = 4 kotak</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <span class="w-4 h-4 bg-yellow-500 rounded mr-3"></span>
+                                            <span><strong class="text-yellow-400">c</strong> = sisi miring = ..... kotak (akan dibuktikan)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Langkah 2: Gunting dan Tempel Persegi -->
+                <div class="bg-green-600/20 border-2 border-green-400 rounded-lg p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-green-300">✂️ Langkah 2: Gunting 3 Kertas Persegi dan Tempel pada Sisi Segitiga</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-lg font-bold mb-3 text-yellow-300">Aktivitas Eksperimen:</h4>
+                            <ol class="space-y-3 text-lg">
+                                <li class="flex items-start">
+                                    <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">1</span>
+                                    <span>Gunting <strong class="text-red-400">persegi dengan sisi 3 kotak</strong> dari kertas berpetak</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">2</span>
+                                    <span>Gunting <strong class="text-blue-400">persegi dengan sisi 4 kotak</strong> dari kertas berpetak</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">3</span>
+                                    <span>Gunting <strong class="text-yellow-400">persegi dengan sisi ... kotak</strong> - silakan gunakan alat bantu untuk mengukurnya</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">4</span>
+                                    <span>Tempelkan atau letakkan persegi sisi alas (3 kotak) di sisi alas segitiga</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1">5</span>
+                                    <span>Tempelkan atau letakkan persegi sisi tegak (4 kotak) di sisi tegak segitiga</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-1 ">6</span>
+                                    <span>Tempelkan atau letakkan persegi sisi miring di sisi miring segitiga</span>
+                                </li>
+                            </ol>
+                        </div>
+                        <div>
+                            <div class="bg-gray-800/50 rounded-lg p-4">
+                                <h5 class="text-center font-bold mb-4">Visualisasi Penempelan:</h5>
+                                <!-- Gambar Teorema Pythagoras yang Benar -->
+                                <div class="flex justify-center my-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="450" height="400" viewBox="0 0 350 400">
+                                        <!-- Grid background untuk membantu visualisasi -->
+                                        <defs>
+                                            <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#444" stroke-width="0.8"/>
+                                            </pattern>
+                                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                                <polygon points="0 0, 10 3.5, 0 7" fill="#fbbf24"/>
+                                            </marker>
+                                        </defs>
+                                        <rect width="100%" height="100%" fill="url(#smallGrid)" opacity="0.4"/>
+                                        
+                                          
+                                       <!-- Kelompok semua elemen segitiga & persegi -->
+<g transform="translate(80,-100)">
+    <!-- Segitiga siku-siku utama (3-4-5) -->
+    <polygon points="110,350 170,350 170,270"
+             fill="#10b981" fill-opacity="0.4"
+             stroke="#10b981" stroke-width="3"/>
+    
+    <!-- Persegi pada sisi a (alas) -->
+    <rect x="110" y="350" width="60" height="60"
+          fill="#ef4444" fill-opacity="0.6"
+          stroke="#ef4444" stroke-width="3"/>
+    <text x="140" y="380" font-size="12" fill="#ffffff" text-anchor="middle">
+        9 kotak
+    </text>
+    
+    <!-- Persegi pada sisi b (tegak) -->
+    <rect x="170" y="270" width="80" height="80"
+          fill="#3b82f6" fill-opacity="0.6"
+          stroke="#3b82f6" stroke-width="3"/>
+    <text x="200" y="330" font-size="12" fill="#ffffff" text-anchor="middle">
+        16 kotak
+    </text>
+    
+    <!-- Persegi pada sisi c (hipotenusa) -->
+    <polygon points="110,350 170,270 90,210 30,290"
+             fill="#fbbf24" fill-opacity="0.6"
+             stroke="#fbbf24" stroke-width="3"/>
+    <text x="100" y="285" font-size="12" fill="#ffffff" text-anchor="middle">
+        25 kotak
+    </text>
+    
+    <!-- Tanda siku-siku -->
+    <rect x="155" y="335" width="15" height="15"
+          fill="none" stroke="#ffffff" stroke-width="2"/>
+</g>
+
+                                        <!-- Arrow marker untuk sumbu -->
+                                        <defs>
+                                            <marker id="axisArrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                                                <polygon points="0 0, 8 3, 0 6" fill="#ffffff"/>
+                                            </marker>
+                                        </defs>
+                                        
+                                        
+                                      
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="grid grid-cols-3 gap-4 text-center">
+                                        <div>
+                                            <div class="w-16 h-16 bg-red-200 mx-auto mb-2 rounded border-2 border-red-600 flex items-center justify-center">
+                                                <span class="text-red-800 font-bold text-xs">a²</span>
+                                            </div>
+                                            <p class="text-sm text-red-400">Persegi sisi alas</p>
+                                            <p class="text-xs text-red-400">9 kotak</p>
+                                        </div>
+                                        <div>
+                                            <div class="w-16 h-16 bg-blue-200 mx-auto mb-2 rounded border-2 border-blue-600 flex items-center justify-center">
+                                                <span class="text-blue-800 font-bold text-xs">b²</span>
+                                            </div>
+                                            <p class="text-sm text-blue-400">Persegi sisi tegak</p>
+                                            <p class="text-xs text-blue-400">16 kotak</p>
+                                        </div>
+                                        <div>
+                                            <div class="w-16 h-16 bg-yellow-200 mx-auto mb-2 rounded border-2 border-yellow-600 flex items-center justify-center">
+                                                <span class="text-purple-800 font-bold text-xs">c²</span>
+                                            </div>
+                                            <p class="text-sm text-yellow-400">Persegi sisi miring</p>
+                                            <p class="text-xs text-yellow-400">? kotak</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-yellow-600/20 rounded-lg p-3">
+                                        <p class="text-center font-bold">🎯 Tujuan: Temukan ukuran persegi sisi miring!</p>
+                                        <p class="text-center text-sm">Hitung luas masing-masing persegi</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Langkah 3: Hitung Luas dan Analisis Interaktif -->
+                <div class="bg-purple-600/20 border-2 border-purple-400 rounded-lg p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-purple-300">🧮 Langkah 3: Hitung Luas Masing-masing Persegi dan Analisis Hubungan (Interaktif)</h3>
+                    <p class="text-lg mb-6 text-center">Sekarang mari kita hitung luas masing-masing persegi secara interaktif berdasarkan hasil eksperimen menggunting dan menempel!</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Interactive Calculation Panel -->
+                        <div>
+                            <!-- Step A: Hitung Luas Persegi Sisi Tegak -->
+                            <div class="bg-red-600/20 border-2 border-red-400 rounded-lg p-4 mb-4">
+                                <h4 class="text-lg font-bold mb-3 text-red-300">🔴 Langkah A: Hitung Luas Persegi Sisi Alas</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-2">
+                                        <span>Sisi alas =</span>
+                                        <input type="number" id="side-a-calc" value="3" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" readonly>
+                                        <span>kotak</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span>Luas = sisi × sisi =</span>
+                                        <input type="number" id="area-a-calc1" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?">
+                                        <span>×</span>
+                                        <input type="number" id="area-a-calc2" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?">
+                                        <span>=</span>
+                                        <input type="number" id="area-a-result" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="hasil">
+                                    </div>
+                                    <button onclick="checkAreaA()" class="w-full bg-red-500 hover:bg-red-600 px-4 py-2 rounded font-bold transition-all">
+                                        Periksa Langkah A
+                                    </button>
+                                    <div id="feedback-area-a" class="text-sm hidden"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step B: Hitung Luas Persegi Sisi Alas -->
+                            <div id="area-b-container" class="bg-blue-600/20 border-2 border-blue-400 rounded-lg p-4 mb-4 opacity-50">
+                                <h4 class="text-lg font-bold mb-3 text-blue-300">🔵 Langkah B: Hitung Luas Persegi Sisi Tegak</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-2">
+                                        <span>Sisi tegak =</span>
+                                        <input type="number" id="side-b-calc" value="4" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" readonly disabled>
+                                        <span>kotak</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span>Luas = sisi × sisi =</span>
+                                        <input type="number" id="area-b-calc1" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?" disabled>
+                                        <span>×</span>
+                                        <input type="number" id="area-b-calc2" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?" disabled>
+                                        <span>=</span>
+                                        <input type="number" id="area-b-result" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="hasil" disabled>
+                                    </div>
+                                    <button id="btn-area-b" onclick="checkAreaB()" class="w-full bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded font-bold transition-all" disabled>
+                                        Periksa Langkah B
+                                    </button>
+                                    <div id="feedback-area-b" class="text-sm hidden"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Step C: Analisis Hubungan -->
+                            <div id="analysis-container" class="bg-yellow-600/20 border-2 border-yellow-400 rounded-lg p-4 opacity-50">
+                                <h4 class="text-lg font-bold mb-3 text-yellow-300">🟡 Langkah C: Analisis Hubungan</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-2">
+                                        <span>Total luas =</span>
+                                        <input type="number" id="sum-areas" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="a+b?" disabled>
+                                        <span>=</span>
+                                        <span class="font-bold">25 kotak</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span>Luas persegi sisi miring =</span>
+                                        <input type="number" id="area-c-result" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?" disabled>
+                                        <span>kotak</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <span>Panjang sisi miring = √</span>
+                                        <input type="number" id="hypotenuse-calc" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?" disabled>
+                                        <span>=</span>
+                                        <input type="number" id="hypotenuse-result" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?" disabled>
+                                        <span>kotak</span>
+                                    </div>
+                                    <button id="btn-analysis" onclick="checkAnalysis()" class="w-full bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded font-bold transition-all" disabled>
+                                        Selesaikan Analisis
+                                    </button>
+                                    <div id="feedback-analysis" class="text-sm hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Visual Display -->
+                        <div class="bg-gray-800/50 rounded-lg p-6">
+                            <h5 class="text-center font-bold mb-4">📊 Visualisasi Dinamis Perhitungan:</h5>
+                            <svg width="100%" height="350" viewBox="0 0 400 350" class="border border-gray-600 rounded bg-gray-900/50">
+                                <!-- Persegi sisi tegak -->
+                                <rect id="visual-square-a" x="50" y="50" width="80" height="80" fill="#ef4444" fill-opacity="0.3" stroke="#ef4444" stroke-width="3"/>
+                                <text id="visual-text-a" x="90" y="95" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">a² = ?</text>
+                                
+                                <!-- Persegi sisi alas -->
+                                <rect id="visual-square-b" x="150" y="50" width="80" height="80" fill="#3b82f6" fill-opacity="0.3" stroke="#3b82f6" stroke-width="3"/>
+                                <text id="visual-text-b" x="190" y="95" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">b² = ?</text>
+                                
+                                <!-- Persegi sisi miring -->
+                                <rect id="visual-square-c" x="250" y="50" width="80" height="80" fill="#fbbf24" fill-opacity="0.3" stroke="#fbbf24" stroke-width="3"/>
+                                <text id="visual-text-c" x="290" y="95" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold">c² = ?</text>
+                                
+                                <!-- Progress indicators -->
+                                <circle id="progress-a" cx="90" cy="220" r="15" fill="#374151" stroke="#ef4444" stroke-width="3"/>
+                                <text x="90" y="225" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">1</text>
+                                
+                                <circle id="progress-b" cx="190" cy="220" r="15" fill="#374151" stroke="#3b82f6" stroke-width="3"/>
+                                <text x="190" y="225" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">2</text>
+                                
+                                <circle id="progress-analysis" cx="290" cy="220" r="15" fill="#374151" stroke="#fbbf24" stroke-width="3"/>
+                                <text x="290" y="225" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="bold">3</text>
+                                
+                                <!-- Calculation display -->
+                                <text id="visual-calculation" x="200" y="180" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold">? + ? = ?</text>
+                                
+                                <!-- Result display -->
+                                <text id="visual-result" x="200" y="270" text-anchor="middle" fill="#10b981" font-size="18" font-weight="bold" opacity="0">Panjang tangga = ? meter</text>
+                                
+                                <!-- Success animation -->
+                                <text id="visual-success" x="200" y="310" text-anchor="middle" fill="#fbbf24" font-size="24" opacity="0">🎉</text>
+                            </svg>
+                            
+                            <!-- Progress Steps -->
+                            <div class="mt-4 bg-white/10 rounded-lg p-3">
+                                <h6 class="font-bold mb-2">📈 Progress Langkah 3:</h6>
+                                <div class="flex justify-between text-sm">
+                                    <span id="step3-progress-1" class="text-gray-400">1. Hitung a²</span>
+                                    <span id="step3-progress-2" class="text-gray-400">2. Hitung b²</span>
+                                    <span id="step3-progress-3" class="text-gray-400">3. Analisis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aktivitas Interaktif -->
+                <div class="bg-yellow-600/20 border-2 border-yellow-400 rounded-lg p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-yellow-300">🧮 Aktivitas Interaktif - Setelah Eksperimen</h3>
+                    <p class="text-lg mb-6">Setelah menjawab pertanyaan berdasarkan hasil eksperimen, mari kita hitung:</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">1. Berapa luas persegi sisi alas (3×3)?</label>
+                            <input type="number" id="square-a" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Hitung: 3 × 3 = ...">
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">2. Berapa luas persegi sisi tegak (4×4)?</label>
+                            <input type="number" id="square-b" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Hitung: 4 × 4 = ...">
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">3. Berapa hasil dari luas sisi alas + luas sisi tegak?</label>
+                            <input type="number" id="sum-squares" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Jumlahkan hasil dari nomor 1 dan 2...">
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">4. Berapa luas persegi sisi miring? apakah sama sama dengan jawaban nomor 3?</label>
+                            <input type="number" id="square-c" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Luas persegi sisi miring = ...">
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">5. Jadi panjang sisi miring adalah √(hasil nomor 4) = ?</label>
+                            <input type="number" id="hypotenuse-length" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="√? = ...">
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">6. Tuliskan rumus Teorema Pythagoras berdasarkan hasil eksperimen:</label>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" id="formula-a" class="input-field w-12 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?">
+                                <span class="text-xl">² +</span>
+                                <input type="text" id="formula-b" class="input-field w-12 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?">
+                                <span class="text-xl">² =</span>
+                                <input type="text" id="formula-c" class="input-field w-12 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="?">
+                                <span class="text-xl">²</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="checkProof()" class="w-full mt-6 bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 px-6 py-3 rounded-lg font-bold text-lg transition-all">
+                        Periksa Hasil Eksperimen
+                    </button>
+                    
+                    <div id="proof-feedback" class="mt-4 hidden"></div>
+                </div>
+            
+            
+            <div class="mt-8 text-center">
+                <button id="step2-next" onclick="nextStep(2)" class="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 px-8 py-3 rounded-lg font-bold text-lg transition-all opacity-50 cursor-not-allowed" disabled>
+                    Lanjut ke Penyelesaian Masalah →
+                </button>
+            </div>
+        
+
+        <!-- Step 3: Solusi -->
+        <section id="step3" class="step-card bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8 opacity-50">
+            <div class="flex items-center mb-6">
+                <div class="bg-green-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold mr-4">3</div>
+                <h2 class="text-3xl font-bold text-green-300">PENYELESAIAN MASALAH INTERAKTIF</h2>
+            </div>
+            
+            <!-- Interactive Problem Solving -->
+            <div class="bg-green-600/20 border-2 border-green-400 rounded-lg p-6 mb-8">
+                <h3 class="text-2xl font-bold mb-4 text-yellow-300 text-center">🎯 Simulator Penyelesaian Teorema Pythagoras</h3>
+                <p class="text-lg mb-6 text-center">Gunakan simulator interaktif untuk menyelesaikan misi penyelamatan step by step!</p>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Interactive Input Panel -->
+                    <div class="bg-white/10 rounded-lg p-6">
+                        <h4 class="text-xl font-bold mb-4 text-orange-300">🧮 Panel Perhitungan Interaktif</h4>
+                        
+                        <!-- Data Input -->
+                        <div class="space-y-4 mb-6">
+                            <div class="bg-gray-800/50 rounded-lg p-4">
+                                <h5 class="font-bold text-yellow-300 mb-3">📊 Data Masalah:</h5>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm mb-2">Tinggi (a):</label>
+                                        <input type="number" id="input-a" value="8" class="input-field w-full p-2 rounded bg-gray-700 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" readonly>
+                                        <p class="text-xs text-gray-400 mt-1">meter</p>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm mb-2">Jarak (b):</label>
+                                        <input type="number" id="input-b" value="6" class="input-field w-full p-2 rounded bg-gray-700 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" readonly>
+                                        <p class="text-xs text-gray-400 mt-1">meter</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Step by Step Calculation -->
+                        <div class="space-y-4">
+                            <div class="bg-red-600/20 border-2 border-red-400 rounded-lg p-4">
+                                <label class="block text-sm font-medium mb-2">🔢 Langkah 1: Hitung a²</label>
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <span>a² =</span>
+                                    <input type="number" id="calc-a-input" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="8">
+                                    <span>² =</span>
+                                    <input type="number" id="calc-a-result" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="hasil">
+                                </div>
+                                <button onclick="checkStepA()" class="w-full bg-red-500 hover:bg-red-600 px-4 py-2 rounded font-bold text-sm transition-all">
+                                    Periksa Langkah 1
+                                </button>
+                                <div id="feedback-a" class="mt-2 text-sm hidden"></div>
+                            </div>
+                            
+                            <div id="step-b-container" class="bg-blue-600/20 border-2 border-blue-400 rounded-lg p-4 opacity-50">
+                                <label class="block text-sm font-medium mb-2">🔢 Langkah 2: Hitung b²</label>
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <span>b² =</span>
+                                    <input type="number" id="calc-b-input" class="input-field w-16 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="6" disabled>
+                                    <span>² =</span>
+                                    <input type="number" id="calc-b-result" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="hasil" disabled>
+                                </div>
+                                <button id="btn-step-b" onclick="checkStepB()" class="w-full bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded font-bold text-sm transition-all" disabled>
+                                    Periksa Langkah 2
+                                </button>
+                                <div id="feedback-b" class="mt-2 text-sm hidden"></div>
+                            </div>
+                            
+                            <div id="step-c-container" class="bg-purple-600/20 border-2 border-purple-400 rounded-lg p-4 opacity-50">
+                                <label class="block text-sm font-medium mb-2">🔢 Langkah 3: Hitung c² = a² + b²</label>
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <span>c² =</span>
+                                    <input type="number" id="calc-c-sum" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="a²+b²" disabled>
+                                </div>
+                                <button id="btn-step-c" onclick="checkStepC()" class="w-full bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded font-bold text-sm transition-all" disabled>
+                                    Periksa Langkah 3
+                                </button>
+                                <div id="feedback-c" class="mt-2 text-sm hidden"></div>
+                            </div>
+                            
+                            <div id="step-final-container" class="bg-yellow-600/20 border-2 border-yellow-400 rounded-lg p-4 opacity-50">
+                                <label class="block text-sm font-medium mb-2">🎯 Langkah 4: Hitung c = √(c²)</label>
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <span>c = √</span>
+                                    <input type="number" id="calc-final-input" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="c²" disabled>
+                                    <span>= </span>
+                                    <input type="number" id="calc-final-result" class="input-field w-20 p-2 rounded bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none text-center" placeholder="hasil" disabled>
+                                    <span>meter</span>
+                                </div>
+                                <button id="btn-step-final" onclick="checkFinalStep()" class="w-full bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded font-bold text-sm transition-all" disabled>
+                                    Selesaikan Misi!
+                                </button>
+                                <div id="feedback-final" class="mt-2 text-sm hidden"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Indicator -->
+                        <div class="mt-6 bg-gray-800/50 rounded-lg p-4">
+                            <h5 class="font-bold mb-2">📈 Progress Penyelesaian:</h5>
+                            <div class="flex space-x-2">
+                                <div id="progress-step1" class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs">1</div>
+                                <div id="progress-step2" class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs">2</div>
+                                <div id="progress-step3" class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs">3</div>
+                                <div id="progress-step4" class="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center text-xs">4</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Visualization -->
+                    <div class="bg-white/10 rounded-lg p-6">
+                        <h4 class="text-xl font-bold mb-4 text-center text-blue-300">📊 Ilustrasi Situasi</h4>
+                        <svg width="100%" height="450" viewBox="0 0 400 450" class="border-2 border-gray-600 rounded bg-gray-900/50">
+                            <!-- Building on the right -->
+                            <rect x="320" y="80" width="60" height="170" fill="#4a5568" stroke="#e2e8f0" stroke-width="2"/>
+                            <rect x="330" y="200" width="15" height="12" fill="#fbbf24"/> <!-- Window floor 1 -->
+                            <rect x="355" y="200" width="15" height="12" fill="#fbbf24"/> <!-- Window floor 1 -->
+                            <rect x="330" y="170" width="15" height="12" fill="#fbbf24"/> <!-- Window floor 2 -->
+                            <rect x="355" y="170" width="15" height="12" fill="#fbbf24"/> <!-- Window floor 2 -->
+                            <rect x="330" y="140" width="15" height="12" fill="#ef4444"/> <!-- Window floor 3 (fire) -->
+                            <rect x="355" y="140" width="15" height="12" fill="#ef4444"/> <!-- Window floor 3 (fire) -->
+                            <rect x="330" y="110" width="15" height="12" fill="#ef4444"/> <!-- Window floor 4 (fire) -->
+                            <rect x="355" y="110" width="15" height="12" fill="#ef4444"/> <!-- Window floor 4 (fire) -->
+                            
+                            <!-- Person in window -->
+                            <text x="350" y="135" text-anchor="middle" font-size="16">🧑</text>
+                            
+                            <!-- Ground -->
+                            <line x1="0" y1="250" x2="400" y2="250" stroke="#10b981" stroke-width="4"/>
+                            
+                            <!-- Fire truck on the left -->
+                            <rect x="200" y="220" width="60" height="30" fill="#dc2626"/>
+                            <circle cx="215" r="8" cy="250" fill="#374151"/>
+                            <circle cx="245" r="8" cy="250" fill="#374151"/>
+                            <text x="230" y="240" text-anchor="middle" font-size="20">🚒</text>
+                            
+                            <!-- Dynamic Triangle -->
+                            <polygon id="dynamic-triangle" points="260,250 320,250 320,140" fill="#10b981" fill-opacity="0.3" stroke="#10b981" stroke-width="3" opacity="0"/>
+                            
+                            <!-- Dynamic Ladder -->
+                            <line id="dynamic-ladder" x1="260" y1="250" x2="320" y2="140" stroke="#fbbf24" stroke-width="6" opacity="0"/>
+                            
+                            <!-- Question mark for ladder (initial state) -->
+                            <line x1="260" y1="250" x2="320" y2="140" stroke="#f59e0b" stroke-width="3" stroke-dasharray="10,5"/>
+                            <text x="290" y="185" text-anchor="middle" fill="#f59e0b" font-size="20" font-weight="bold">?</text>
+                            
+                            <!-- Measurements -->
+                            <line x1="315" y1="140" x2="315" y2="250" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text x="305" y="195" text-anchor="middle" fill="#ef4444" font-size="14" font-weight="bold">8m</text>
+                            
+                            <line x1="260" y1="255" x2="315" y2="255" stroke="#3b82f6" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text x="287" y="275" text-anchor="middle" fill="#3b82f6" font-size="14" font-weight="bold">6m</text>
+                            
+                            <!-- Dynamic result display -->
+                            <text id="dynamic-result" x="290" y="185" text-anchor="middle" fill="#fbbf24" font-size="16" font-weight="bold" opacity="0">c = ? m</text>
+                            
+                            <!-- Calculation display -->
+                            <text id="calc-display" x="200" y="50" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="bold" opacity="0"></text>
+                        </svg>
+                        
+                        <!-- Success Animation -->
+                        <div id="success-animation" class="hidden mt-4 text-center">
+                            <div class="text-6xl mb-4 animate-bounce">🎉</div>
+                            <h4 class="text-2xl font-bold text-green-300 mb-2">MISI BERHASIL!</h4>
+                            <p class="text-lg">Korban diselamatkan dengan tangga <span id="final-length" class="font-bold text-yellow-300"></span> meter!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-center">
+                <button id="step3-next" onclick="nextStep(3)" class="bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 px-8 py-3 rounded-lg font-bold text-lg transition-all opacity-50 cursor-not-allowed" disabled>
+                    Lanjut ke Kesimpulan →
+                </button>
+            </div>
+        
+
+        <!-- Step 4: Kesimpulan -->
+        <section id="step4" class="step-card bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-8 opacity-50">
+            <div class="flex items-center mb-6">
+                <div class="bg-purple-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-bold mr-4">4</div>
+                <h2 class="text-3xl font-bold text-purple-300">KESIMPULAN TERBIMBING</h2>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="bg-purple-600/20 border-2 border-purple-400 rounded-lg p-6">
+                    <h3 class="text-2xl font-bold mb-4 text-yellow-300">🎓 Refleksi Pembelajaran</h3>
+                    <p class="text-lg mb-6">Mari kita simpulkan apa yang telah kita pelajari dari misi penyelamatan ini:</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">1. Teorema Pythagoras menyatakan bahwa:</label>
+                            <textarea id="conclusion1" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none h-20" placeholder="Tuliskan rumus dan penjelasan teorema Pythagoras..."></textarea>
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">2. Dalam masalah penyelamatan ini, kita menggunakan teorema untuk:</label>
+                            <textarea id="conclusion2" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none h-20" placeholder="Jelaskan bagaimana teorema membantu menyelesaikan masalah..."></textarea>
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">3. Contoh penerapan teorema Pythagoras dalam kehidupan sehari-hari:</label>
+                            <textarea id="conclusion3" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none h-20" placeholder="Sebutkan 2-3 contoh penerapan lainnya..."></textarea>
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <label class="block text-sm font-medium mb-2">4. Hal paling menarik yang saya pelajari hari ini:</label>
+                            <textarea id="conclusion4" class="input-field w-full p-3 rounded-lg bg-gray-800 border-2 border-gray-600 focus:border-blue-400 focus:outline-none h-20" placeholder="Bagikan refleksi pribadi Anda..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <button onclick="submitConclusion()" class="w-full mt-6 bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 px-6 py-3 rounded-lg font-bold text-lg transition-all">
+                        Selesaikan LKPD
+                    </button>
+                </div>
+                
+                <div id="final-summary" class="hidden bg-gradient-to-r from-green-600/20 to-blue-600/20 border-2 border-green-400 rounded-lg p-6 text-center fade-in">
+                    <h3 class="text-3xl font-bold text-green-300 mb-4">🏆 SELAMAT! 🏆</h3>
+                    <p class="text-xl mb-4">Anda telah berhasil menyelesaikan LKPD Teorema Pythagoras!</p>
+                    <div class="grid md:grid-cols-3 gap-4 mt-6">
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <div class="text-3xl mb-2">📐</div>
+                            <p class="font-bold">Teorema Terbukti</p>
+                            <p class="text-sm text-gray-300">a² + b² = c²</p>
+                        </div>
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <div class="text-3xl mb-2">🚒</div>
+                            <p class="font-bold">Masalah Terpecahkan</p>
+                            <p class="text-sm text-gray-300">Tangga 10 meter</p>
+                        </div>
+                        <div class="bg-white/10 rounded-lg p-4">
+                            <div class="text-3xl mb-2">🎯</div>
+                            <p class="font-bold">Tujuan Tercapai</p>
+                            <p class="text-sm text-gray-300">Pembelajaran berhasil</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tombol cetak LKPD -->
+        <div class="mt-12 text-center bg-gradient-to-r from-green-600/20 to-blue-600/20 border-2 border-green-400 rounded-xl p-8 backdrop-blur-sm">
+            <h3 class="text-2xl font-bold text-green-300 mb-4">📤 Cetak LKPD Anda</h3>
+            <p class="text-lg mb-6 text-gray-200">Setelah menyelesaikan semua langkah pembelajaran, Cetak LKPD Anda untuk dinilai!</p>
+            
+            <div class="grid md:grid-cols-3 gap-4 mb-6">
+                <div class="bg-white/10 rounded-lg p-4">
+                    <div class="text-3xl mb-2">✅</div>
+                    <p class="font-bold">Pembuktian Teorema</p>
+                    <p class="text-sm text-gray-300" id="status-proof">Belum selesai</p>
+                </div>
+                <div class="bg-white/10 rounded-lg p-4">
+                    <div class="text-3xl mb-2">🧮</div>
+                    <p class="font-bold">Penyelesaian Masalah</p>
+                    <p class="text-sm text-gray-300" id="status-solution">Belum selesai</p>
+                </div>
+                <div class="bg-white/10 rounded-lg p-4">
+                    <div class="text-3xl mb-2">📝</div>
+                    <p class="font-bold">Kesimpulan</p>
+                    <p class="text-sm text-gray-300" id="status-conclusion">Belum selesai</p>
+                </div>
+            </div>
+            
+            <button id="submit-lkpd" onclick="submitLKPD()" class="bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 px-12 py-4 rounded-lg font-bold text-xl transition-all transform hover:scale-105 shadow-lg opacity-50 cursor-not-allowed" disabled>
+                📤 CETAK LKPD SEKARANG
+            </button>
+            
+            <div id="submit-feedback" class="mt-4 hidden"></div>
+        </div>
+    </div>
+
+    <style id="print-styles">
+        @media print {
+            /* Hide elements that are not part of the final worksheet content */
+            .mt-12.text-center, /* Hides the entire "Cetak LKPD" section */
+            button, /* Hides all buttons */
+            #proof-feedback, 
+            #feedback-area-a,
+            #feedback-area-b,
+            #feedback-analysis,
+            #feedback-a,
+            #feedback-b,
+            #feedback-c,
+            #feedback-final {
+                display: none !important;
+            }
+    
+            /* General print styling to ensure readability */
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+               }
+
+         
+        }
+    </style>
+
+    <script>
+        let currentStep = 1;
+        let proofCompleted = false;
+        let solutionCompleted = false;
+
+        function updateProgress() {
+            const progress = ((currentStep - 1) / 4) * 100;
+            document.getElementById('progress-bar').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = currentStep - 1;
+        }
+
+        function nextStep(step) {
+            // Remove active class from current step
+            document.getElementById(`step${step}`).classList.remove('step-active');
+            document.getElementById(`step${step}`).classList.add('step-completed');
+            
+            // Activate next step
+            currentStep = step + 1;
+            if (currentStep <= 4) {
+                const nextStepElement = document.getElementById(`step${currentStep}`);
+                nextStepElement.classList.remove('opacity-50');
+                nextStepElement.classList.add('step-active', 'fade-in');
+                
+                // Scroll to next step
+                nextStepElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            
+            updateProgress();
+        }
+
+        function checkProof() {
+            const squareA = parseInt(document.getElementById('square-a').value);
+            const squareB = parseInt(document.getElementById('square-b').value);
+            const sumSquares = parseInt(document.getElementById('sum-squares').value);
+            const squareC = parseInt(document.getElementById('square-c').value);
+            const hypotenuseLength = parseInt(document.getElementById('hypotenuse-length').value);
+            const formulaA = document.getElementById('formula-a').value.toLowerCase();
+            const formulaB = document.getElementById('formula-b').value.toLowerCase();
+            const formulaC = document.getElementById('formula-c').value.toLowerCase();
+            
+            const feedback = document.getElementById('proof-feedback');
+            feedback.classList.remove('hidden');
+            
+            if (squareA === 9 && squareB === 16 && sumSquares === 25 && squareC === 25 && 
+                hypotenuseLength === 5 && formulaA === 'a' && formulaB === 'b' && formulaC === 'c') {
+                feedback.innerHTML = `
+                    <div class="bg-green-600/20 border-2 border-green-400 rounded-lg p-4">
+                        <h4 class="font-bold text-green-300 mb-2">🎉 Excellent! Pembuktian Berhasil!</h4>
+                        <p class="mb-3">Hasil eksperimen menggunting dan menempel kertas Anda benar:</p>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            <li>Luas persegi sisi alas (3×3) = 9 kotak ✓</li>
+                            <li>Luas persegi sisi tegak (4×4) = 16 kotak ✓</li>
+                            <li>Total luas = 9 + 16 = 25 kotak ✓</li>
+                            <li>Luas persegi sisi miring = 25 kotak ✓</li>
+                            <li>Panjang sisi miring = √25 = 5 kotak ✓</li>
+                            <li>Rumus: a² + b² = c² ✓</li>
+                        </ul>
+                        <p class="mt-3 font-bold text-yellow-300">Anda telah membuktikan Teorema Pythagoras dengan tripel terkecil 3-4-5!</p>
+                    </div>
+                `;
+                proofCompleted = true;
+                document.getElementById('step2-next').classList.remove('opacity-50', 'cursor-not-allowed');
+                document.getElementById('step2-next').disabled = false;
+                document.getElementById('step2-next').classList.add('pulse-glow');
+                
+                // Update status pembuktian
+                document.getElementById('status-proof').textContent = 'Selesai ✓';
+                document.getElementById('status-proof').classList.remove('text-gray-300');
+                document.getElementById('status-proof').classList.add('text-green-400');
+                
+                // Update visualisasi
+                document.getElementById('visual-text-a').textContent = 'a² = 9';
+                document.getElementById('visual-text-b').textContent = 'b² = 16';
+                document.getElementById('visual-text-c').textContent = 'c² = 25';
+                document.getElementById('visual-result').style.opacity = '1';
+                document.getElementById('visual-result').textContent = 'Panjang sisi miring = 5 kotak';
+                document.getElementById('visual-success').style.opacity = '1';
+                document.getElementById('step3-progress-1').classList.remove('text-gray-400');
+                document.getElementById('step3-progress-1').classList.add('text-green-400');
+                document.getElementById('step3-progress-2').classList.remove('text-gray-400');
+                document.getElementById('step3-progress-2').classList.add('text-green-400');
+                document.getElementById('step3-progress-3').classList.remove('text-gray-400');
+                document.getElementById('step3-progress-3').classList.add('text-green-400');
+            } else {
+                let hints = [];
+                if (squareA !== 9) hints.push("Luas persegi sisi alas: 3 × 3 = 9 kotak");
+                if (squareB !== 16) hints.push("Luas persegi sisi tegak: 4 × 4 = 16 kotak");
+                if (sumSquares !== 25) hints.push("Total luas: 9 + 16 = 25 kotak");
+                if (squareC !== 25) hints.push("Luas persegi sisi miring harus sama dengan total = 25 kotak");
+                if (hypotenuseLength !== 5) hints.push("Panjang sisi miring: √25 = 5 kotak");
+                if (formulaA !== 'a' || formulaB !== 'b' || formulaC !== 'c') hints.push("Rumus: a² + b² = c²");
+                
+                feedback.innerHTML = `
+                    <div class="bg-red-600/20 border-2 border-red-400 rounded-lg p-4">
+                        <h4 class="font-bold text-red-300 mb-2">❌ Periksa Kembali Hasil Eksperimen</h4>
+                        <p class="mb-2">Petunjuk untuk memperbaiki jawaban:</p>
+                        <ul class="list-disc list-inside space-y-1 text-sm">
+                            ${hints.map(hint => `<li>${hint}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+        }
+
+        // Interactive Step Functions for Step 3
+        let stepProgress = 0;
+        let step3Progress = 0;
+        
+        // Step 3 Interactive Functions
+        function checkAreaA() {
+            const calc1 = parseInt(document.getElementById('area-a-calc1').value);
+            const calc2 = parseInt(document.getElementById('area-a-calc2').value);
+            const result = parseInt(document.getElementById('area-a-result').value);
+            const feedback = document.getElementById('feedback-area-a');
+            
+            feedback.classList.remove('hidden');
+            
+            if (calc1 === 3 && calc2 === 3 && result === 9) {
+                feedback.innerHTML = '<p class="text-green-400">✅ Benar! 3² = 3 × 3 = 9 kotak</p>';
+                document.getElementById('progress-a').setAttribute('fill', '#ef4444');
+                document.getElementById('visual-text-a').textContent = 'a² = 9';
+                document.getElementById('visual-calculation').textContent = '9 + ? = ?';
+                document.getElementById('step3-progress-1').classList.remove('text-gray-400');
+                document.getElementById('step3-progress-1').classList.add('text-green-400');
+                
+                // Enable step B
+                document.getElementById('area-b-container').classList.remove('opacity-50');
+                document.getElementById('side-b-calc').disabled = false;
+                document.getElementById('area-b-calc1').disabled = false;
+                document.getElementById('area-b-calc2').disabled = false;
+                document.getElementById('area-b-result').disabled = false;
+                document.getElementById('btn-area-b').disabled = false;
+                
+                step3Progress = 1;
+            } else {
+                feedback.innerHTML = '<p class="text-red-400">❌ Coba lagi! Hitung 3 × 3 = 9</p>';
+            }
+        }
+        
+        function checkAreaB() {
+            const calc1 = parseInt(document.getElementById('area-b-calc1').value);
+            const calc2 = parseInt(document.getElementById('area-b-calc2').value);
+            const result = parseInt(document.getElementById('area-b-result').value);
+            const feedback = document.getElementById('feedback-area-b');
+            
+            feedback.classList.remove('hidden');
+            
+            if (calc1 === 4 && calc2 === 4 && result === 16) {
+                feedback.innerHTML = '<p class="text-green-400">✅ Benar! 4² = 4 × 4 = 16 kotak</p>';
+                document.getElementById('progress-b').setAttribute('fill', '#3b82f6');
+                document.getElementById('visual-text-b').textContent = 'b² = 16';
+                document.getElementById('visual-calculation').textContent = '9 + 16 = ?';
+                document.getElementById('step3-progress-2').classList.remove('text-gray-400');
+                document.getElementById('step3-progress-2').classList.add('text-green-400');
+                
+                // Enable analysis
+                document.getElementById('analysis-container').classList.remove('opacity-50');
+                document.getElementById('sum-areas').disabled = false;
+                document.getElementById('area-c-result').disabled = false;
+                document.getElementById('hypotenuse-calc').disabled = false;
+                document.getElementById('hypotenuse-result').disabled = false;
+                document.getElementById('btn-analysis').disabled = false;
+                
+                step3Progress = 2;
+            } else {
+                feedback.innerHTML = '<p class="text-red-400">❌ Coba lagi! Hitung 4 × 4 = 16</p>';
+            }
+        }
+        
+        function checkAnalysis() {
+            const sum = parseInt(document.getElementById('sum-areas').value);
+            const areaC = parseInt(document.getElementById('area-c-result').value);
+            const hypCalc = parseInt(document.getElementById('hypotenuse-calc').value);
+            const hypResult = parseInt(document.getElementById('hypotenuse-result').value);
+            const feedback = document.getElementById('feedback-analysis');
+            
+            feedback.classList.remove('hidden');
+            
+            if (sum === 25 && areaC === 25 && hypCalc === 25 && hypResult === 5) {
+                feedback.innerHTML = '<p class="text-green-400">🎉 Sempurna! Teorema Pythagoras terbukti: 9 + 16 = 25, jadi c = 5 kotak</p>';
+                document.getElementById('progress-analysis').setAttribute('fill', '#fbbf24');
+                document.getElementById('visual-text-c').textContent = 'c² = 25';
+                document.getElementById('visual-calculation').textContent = '9 + 16 = 25';
+                document.getElementById('visual-result').style.opacity = '1';
+                document.getElementById('visual-result').textContent = 'Panjang sisi miring = 5 kotak';
+                document.getElementById('visual-success').style.opacity = '1';
+                document.getElementById('step3-progress-3').classList.remove('text-gray-400');
+                document.getElementById('step3-progress-3').classList.add('text-green-400');
+                
+                step3Progress = 3;
+                
+                // Enable next step button for step 2
+                document.getElementById('step2-next').classList.remove('opacity-50', 'cursor-not-allowed');
+                document.getElementById('step2-next').disabled = false;
+                document.getElementById('step2-next').classList.add('pulse-glow');
+                proofCompleted = true;
+            } else {
+                let hints = [];
+                if (sum !== 25) hints.push("Total luas: 9 + 16 = 25");
+                if (areaC !== 25) hints.push("Luas persegi sisi miring = 25 kotak");
+                if (hypCalc !== 25) hints.push("Akar dari 25");
+                if (hypResult !== 5) hints.push("√25 = 5");
+                
+                feedback.innerHTML = `<p class="text-red-400">❌ Periksa kembali: ${hints.join(', ')}</p>`;
+            }
+        }
+        
+        function checkStepA() {
+            const input = parseInt(document.getElementById('calc-a-input').value);
+            const result = parseInt(document.getElementById('calc-a-result').value);
+            const feedback = document.getElementById('feedback-a');
+            
+            feedback.classList.remove('hidden');
+            
+            if (input === 8 && result === 64) {
+                feedback.innerHTML = '<p class="text-green-400">✅ Benar! 8² = 64</p>';
+                document.getElementById('progress-step1').classList.add('bg-green-500');
+                document.getElementById('progress-step1').classList.remove('bg-gray-600');
+                
+                // Enable step 2
+                document.getElementById('step-b-container').classList.remove('opacity-50');
+                document.getElementById('calc-b-input').disabled = false;
+                document.getElementById('calc-b-result').disabled = false;
+                document.getElementById('btn-step-b').disabled = false;
+                
+                // Update visualization
+                document.getElementById('calc-display').style.opacity = '1';
+                document.getElementById('calc-display').textContent = 'a² = 8² = 64';
+                
+                stepProgress = 1;
+            } else {
+                feedback.innerHTML = '<p class="text-red-400">❌ Coba lagi! Hitung 8 × 8</p>';
+            }
+        }
+        
+        function checkStepB() {
+            const input = parseInt(document.getElementById('calc-b-input').value);
+            const result = parseInt(document.getElementById('calc-b-result').value);
+            const feedback = document.getElementById('feedback-b');
+            
+            feedback.classList.remove('hidden');
+            
+            if (input === 6 && result === 36) {
+                feedback.innerHTML = '<p class="text-green-400">✅ Benar! 6² = 36</p>';
+                document.getElementById('progress-step2').classList.add('bg-blue-500');
+                document.getElementById('progress-step2').classList.remove('bg-gray-600');
+                
+                // Enable step 3
+                document.getElementById('step-c-container').classList.remove('opacity-50');
+                document.getElementById('calc-c-sum').disabled = false;
+                document.getElementById('btn-step-c').disabled = false;
+                
+                // Update visualization
+                document.getElementById('calc-display').textContent = 'a² = 64, b² = 36';
+                document.getElementById('dynamic-triangle').style.opacity = '0.5';
+                
+                stepProgress = 2;
+            } else {
+                feedback.innerHTML = '<p class="text-red-400">❌ Coba lagi! Hitung 6 × 6</p>';
+            }
+        }
+        
+        function checkStepC() {
+            const sum = parseInt(document.getElementById('calc-c-sum').value);
+            const feedback = document.getElementById('feedback-c');
+            
+            feedback.classList.remove('hidden');
+            
+            if (sum === 100) {
+                feedback.innerHTML = '<p class="text-green-400">✅ Benar! c² = 64 + 36 = 100</p>';
+                document.getElementById('progress-step3').classList.add('bg-purple-500');
+                document.getElementById('progress-step3').classList.remove('bg-gray-600');
+                
+                // Enable final step
+                document.getElementById('step-final-container').classList.remove('opacity-50');
+                document.getElementById('calc-final-input').disabled = false;
+                document.getElementById('calc-final-input').value = 100;
+                document.getElementById('calc-final-result').disabled = false;
+                document.getElementById('btn-step-final').disabled = false;
+                
+                // Update visualization
+                document.getElementById('calc-display').textContent = 'c² = 64 + 36 = 100';
+                
+                stepProgress = 3;
+            } else {
+                feedback.innerHTML = '<p class="text-red-400">❌ Coba lagi! Jumlahkan 64 + 36</p>';
+            }
+        }
+        
+        function checkFinalStep() {
+            const result = parseInt(document.getElementById('calc-final-result').value);
+            const feedback = document.getElementById('feedback-final');
+            
+            feedback.classList.remove('hidden');
+            
+            if (result === 10) {
+                feedback.innerHTML = '<p class="text-green-400">🎉 Sempurna! c = √100 = 10 meter</p>';
+                document.getElementById('progress-step4').classList.add('bg-yellow-500');
+                document.getElementById('progress-step4').classList.remove('bg-gray-600');
+                
+                // Show final animation
+                document.getElementById('dynamic-ladder').style.opacity = '1';
+                document.getElementById('dynamic-result').style.opacity = '1';
+                document.getElementById('dynamic-result').textContent = 'c = 10m';
+                document.getElementById('calc-display').textContent = 'c = √100 = 10 meter';
+                
+                // Show success animation
+                document.getElementById('success-animation').classList.remove('hidden');
+                document.getElementById('final-length').textContent = '10';
+                
+                // Enable next step
+                solutionCompleted = true;
+                document.getElementById('step3-next').classList.remove('opacity-50', 'cursor-not-allowed');
+                document.getElementById('step3-next').disabled = false;
+                document.getElementById('step3-next').classList.add('pulse-glow');
+                
+                // Update status penyelesaian
+                document.getElementById('status-solution').textContent = 'Selesai ✓';
+                document.getElementById('status-solution').classList.remove('text-gray-300');
+                document.getElementById('status-solution').classList.add('text-green-400');
+                
+                stepProgress = 4;
+            } else {
+                feedback.innerHTML = '<p class="text-red-400">❌ Coba lagi! Hitung √100</p>';
+            }
+        }
+
+        function checkSolution() {
+            // This function is kept for compatibility but not used in the new interactive version
+        }
+
+        function submitConclusion() {
+            const conclusion1 = document.getElementById('conclusion1').value.trim();
+            const conclusion2 = document.getElementById('conclusion2').value.trim();
+            const conclusion3 = document.getElementById('conclusion3').value.trim();
+            const conclusion4 = document.getElementById('conclusion4').value.trim();
+            
+            if (conclusion1 && conclusion2 && conclusion3 && conclusion4) {
+                document.getElementById('final-summary').classList.remove('hidden');
+                document.getElementById('final-summary').scrollIntoView({ behavior: 'smooth' });
+                
+                // Complete progress
+                currentStep = 5;
+                updateProgress();
+                
+                // Mark step 4 as completed
+                document.getElementById('step4').classList.remove('step-active');
+                document.getElementById('step4').classList.add('step-completed');
+                
+                // Update status kesimpulan
+                document.getElementById('status-conclusion').textContent = 'Selesai ✓';
+                document.getElementById('status-conclusion').classList.remove('text-gray-300');
+                document.getElementById('status-conclusion').classList.add('text-green-400');
+                
+                // Check if all sections are completed
+                checkLKPDCompletion();
+                
+            } else {
+                alert('Mohon lengkapi semua bagian kesimpulan sebelum menyelesaikan LKPD.');
+            }
+        }
+
+        function checkLKPDCompletion() {
+            if (proofCompleted && solutionCompleted && currentStep >= 5) {
+                // Enable submit button
+                const submitBtn = document.getElementById('submit-lkpd');
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.disabled = false;
+                submitBtn.classList.add('pulse-glow');
+            }
+        }
+
+        function submitLKPD() {
+            // Assume group name and student name are filled from elements outside this snippet
+            const groupName = document.getElementById('group-name')?.value.trim() || 'Kelompok Pythagoras';
+            const student1 = document.getElementById('student1')?.value.trim() || 'Siswa 1';
+            
+            if (!groupName || !student1) {
+                alert('Mohon isi nama kelompok dan minimal satu nama anggota sebelum mencetak LKPD.');
+                return;
+            }
+            
+            // Trigger the browser's print functionality
+            window.print();
+
+            // After printing, show the on-screen confirmation.
+            const submitFeedback = document.getElementById('submit-feedback');
+            submitFeedback.classList.remove('hidden');
+            submitFeedback.innerHTML = `
+                <div class="bg-green-600/20 border-2 border-green-400 rounded-lg p-6 fade-in">
+                    <div class="text-6xl mb-4">🎉</div>
+                    <h4 class="text-2xl font-bold text-green-300 mb-4">LKPD BERHASIL DICETAK!</h4>
+                    <div class="space-y-2 text-lg">
+                        <p><strong>Kelompok:</strong> ${groupName}</p>
+                        <p><strong>Status:</strong> Siap untuk dikumpulkan.</p>
+                        <p><strong>Waktu Cetak:</strong> ${new Date().toLocaleString('id-ID')}</p>
+                    </div>
+                    <div class="mt-6 bg-white/10 rounded-lg p-4">
+                        <h5 class="font-bold mb-2">📊 Ringkasan Pembelajaran:</h5>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="font-bold text-green-400">✅ Teorema Terbukti</p>
+                                <p>a² + b² = c²</p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-blue-400">🧮 Masalah Terpecahkan</p>
+                                <p>Tangga 10 meter</p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-purple-400">📝 Kesimpulan Lengkap</p>
+                                <p>Refleksi selesai</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-yellow-300 font-bold">Terima kasih telah menyelesaikan LKPD Teorema Pythagoras!</p>
+                </div>
+            `;
+            
+            // Disable submit button after submission
+            const submitBtn = document.getElementById('submit-lkpd');
+            submitBtn.disabled = true;
+            submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            submitBtn.classList.remove('pulse-glow');
+            submitBtn.innerHTML = '✅ LKPD SUDAH DICETAK';
+        }
+
+        // Initialize
+        // A full document would call updateProgress() on load, for example in window.onload
+        // For this snippet, we assume it's called elsewhere.
+    </script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97e4b6640006189b',t:'MTc1NzczNTc2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
+                            <footer style="margin-top:40px; padding:10px; text-align:center; font-size:14px; color:#555; border-top:1px solid #ccc;">
+  Dibuat oleh <b>Novia Larosa, S.Pd</b> <br>
+  SMP Negeri 2 Damar © 2025
+</footer>
